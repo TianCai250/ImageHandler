@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./ImageHandler.js"></script>
+    <style>
+        #target {
+            width: 500px;
+            height: 300px;
+        }
+
+        #container {
+            position: relative;
+            width: 400px;
+            height: 200px;
+        }
+
+        .circle {
+            background-color: red;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="target"></div>
+    <div id="container"></div>
+    <script>
+        const el = document.createElement('div');
+        el.setAttribute('class', 'circle')
+        // 调用方法
+        const imageHandler = new ImageHandler('./dragon.png', {
+            // target（可选）:转换后的图片显示容器，未传则不显示图片
+            target: document.querySelector('#target'),
+            width: document.querySelector('#target').clientWidth,
+            height: document.querySelector('#target').clientHeight
+        });
+
+        // 黑白转化
+        imageHandler.blackWhite().then(img => {
+            // 下载黑白转换后的图片
+            imageHandler.downloadImg('黑白')
+            // 利用元素绘制图片
+            imageHandler.paintByElement(img, document.querySelector('#container'), {
+                // 必填，填充元素
+                element: el,
+                // 以下皆为可选
+                // 绘制的宽高
+                width: document.querySelector('#container').clientWidth,
+                height: document.querySelector('#container').clientHeight,
+                // 元素之间的间距
+                gap: 6,
+                // 元素放大倍数
+                scale: 1,
+                // 元素宽
+                elSize: 5
+            })
+        });
+
+    </script>
+</body>
+
+</html>
