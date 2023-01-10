@@ -1,18 +1,4 @@
-# ImagesHandler
-
-> 一个前端图像处理工具类，支持将彩色图像黑白化，支持下载转换后的图像，还能用自定义的 dom 元素绘制图片。
-
-#github
-https://github.com/TianCai250/ImagesHandler
-
-#usage
-
-```bash
-npm install imageshandler
-```
-
-```js
-import ImagesHandler from 'imageshandler';
+import ImagesHandler from 'imageshandler'
 
 const el = document.createElement('div');
 el.setAttribute('class', 'circle');
@@ -46,4 +32,3 @@ imagesHandler.paintByElement(document.querySelector('#container'), {
     // 元素宽
     elSize: 5,
 });
-```

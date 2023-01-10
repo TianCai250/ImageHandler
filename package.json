@@ -1,0 +1,32 @@
+{
+    "name": "imageshandler",
+    "version": "1.0.0",
+    "description": "一个前端图像处理工具类，支持将彩色图像黑白化，支持下载转换后的图像，还能用自定义的 dom 元素绘制图片。",
+    "main": "dist/index.cjs.js",
+    "module": "dist/index.esm.js",
+    "browser": "dist/index.js",
+    "scripts": {
+        "build": "rollup -c"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/TianCai250/ImageHandler.git"
+    },
+    "keywords": [
+        "image",
+        "js",
+        "灰白"
+    ],
+    "author": "TianCai250",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/TianCai250/ImageHandler/issues"
+    },
+    "homepage": "https://github.com/TianCai250/ImageHandler#readme",
+    "devDependencies": {
+        "rollup": "^2.78.0",
+        "rollup-plugin-dts": "^4.2.2",
+        "rollup-plugin-typescript2": "^0.32.1",
+        "typescript": "^4.7.4"
+    }
+}

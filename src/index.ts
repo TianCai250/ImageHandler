@@ -1,30 +1,48 @@
-class ImageHandler {
+interface Options {
+    target: HTMLElement | null;
+    width: number | null;
+    height: number | null;
+}
+
+interface domOptions {
+    element: HTMLElement;
+    width?: number;
+    height?: number;
+    gap: number;
+    scale: number;
+    elSize: number;
+}
+
+export default class ImagesHandler {
     // imgSrc: 图片地址
-    constructor(imgSrc, options = {}) {
+    private imgSrc: string;
+    // 转换后的图片显示容器，未传则不显示图片
+    private target: HTMLElement | null;
+    // 图片宽高，未传则为图片原本大小
+    private width: number | null;
+    private height: number | null;
+    private canvas: HTMLCanvasElement;
+    private context: CanvasRenderingContext2D;
+    private image: HTMLImageElement;
+
+    public constructor(imgSrc: string, options: Options) {
         this.imgSrc = imgSrc;
-        // 转换后的图片显示容器，未传则不显示图片
         this.target = options.target || null;
-        // 图片宽高，未传则为图片原本大小
         this.width = options.width || null;
         this.height = options.height || null;
 
-        this.init(imgSrc);
-    }
-    // 初始化
-    init() {
         this.canvas = document.createElement('canvas');
-        this.context = this.canvas.getContext('2d');
-
+        this.context = this.canvas.getContext('2d')!;
         this.image = new Image();
         this.image.src = this.imgSrc;
         // 如果有容器，则绘制在容器中
         if (this.target) {
-            target.innerHtml = '';
-            target.append(this.canvas);
+            this.target.innerHTML = '';
+            this.target.append(this.canvas);
         }
     }
     // 黑白处理
-    blackWhite() {
+    public blackWhite() {
         return new Promise(resolve => {
             this.image.onload = () => {
                 this.canvas.width = this.width || this.image.width;
@@ -43,7 +61,7 @@ class ImageHandler {
                         b = imgdata.data[i + 2];
 
                     // 计算结果值
-                    let val = parseInt(r * 0.299 + g * 0.587 + b * 0.114) >= 128 ? 255 : 0;
+                    let val = r * 0.299 + g * 0.587 + b * 0.114 >= 128 ? 255 : 0;
                     // 黑白后的r,g,b色值
                     imgdata.data[i] = val;
                     imgdata.data[i + 1] = val;
@@ -57,20 +75,20 @@ class ImageHandler {
             };
         });
     }
-    // 下载转化后的图片(在blackWhite的then回调函数中使用):imageHandler.blackWhite().then(img => imageHandler.downloadImg())
-    downloadImg(imgName) {
+    // 下载转化后的图片(在blackWhite的then回调函数中使用):imagesHandler.blackWhite().then(img => imagesHandler.downloadImg())
+    public downloadImg(imgName?: string) {
         this.canvas.toBlob(blob => {
             const timestamp = Date.now().toString();
             const a = document.createElement('a');
             document.body.append(a);
             a.download = `${imgName ? imgName : timestamp}.png`;
-            a.href = URL.createObjectURL(blob);
+            a.href = URL.createObjectURL(blob as Blob);
             a.click();
             a.remove();
         });
     }
     // 用指定dom绘制图片
-    paintByElement(container, options = {}) {
+    paintByElement(container: HTMLElement, options: domOptions) {
         const image = new Image();
         image.src = this.imgSrc;
         // 绘制的宽高
@@ -85,12 +103,12 @@ class ImageHandler {
         // 元素宽
         const elSize = options.elSize || 5;
 
-        if (!el) {
+        if (!element) {
             throw '选项element不能为空！';
         }
 
         const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d')!;
         canvas.width = width;
         canvas.height = height;
         image.onload = () => {
@@ -98,7 +116,7 @@ class ImageHandler {
             const imageData = ctx.getImageData(0, 0, width, height).data;
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, width, height);
-            container.innerHtml = '';
+            container.innerHTML = '';
             // // 生成点阵信息
             for (var h = 0; h < height; h += gap) {
                 for (var w = 0; w < width; w += gap) {
@@ -106,8 +124,8 @@ class ImageHandler {
                     var r = imageData[position],
                         g = imageData[position + 1],
                         b = imageData[position + 2];
-                    if (parseInt(r * 0.299 + g * 0.587 + b * 0.114) < 128) {
-                        let el = element.cloneNode(true);
+                    if (r * 0.299 + g * 0.587 + b * 0.114 < 128) {
+                        let el = element.cloneNode(true) as HTMLElement;
                         el.style.position = 'absolute';
                         el.style.left = w * scale - elSize / 2 + 'px';
                         el.style.top = h * scale - elSize / 2 + 'px';
