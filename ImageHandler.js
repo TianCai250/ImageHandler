@@ -1,6 +1,7 @@
 class ImageHandler {
     // imgSrc: 图片地址
     constructor(imgSrc, options = {}) {
+        this.imgSrc = imgSrc;
         // 转换后的图片显示容器，未传则不显示图片
         this.target = options.target || null;
         // 图片宽高，未传则为图片原本大小
@@ -10,12 +11,12 @@ class ImageHandler {
         this.init(imgSrc);
     }
     // 初始化
-    init(imgSrc) {
+    init() {
         this.canvas = document.createElement('canvas');
         this.context = this.canvas.getContext('2d');
 
         this.image = new Image();
-        this.image.src = imgSrc;
+        this.image.src = this.imgSrc;
         // 如果有容器，则绘制在容器中
         if (this.target) {
             target.innerHtml = '';
@@ -69,7 +70,9 @@ class ImageHandler {
         });
     }
     // 用指定dom绘制图片
-    paintByElement(image, container, options = {}) {
+    paintByElement(container, options = {}) {
+        const image = new Image();
+        image.src = this.imgSrc;
         // 绘制的宽高
         const width = options.width || this.canvas.width;
         const height = options.height || this.canvas.height;
@@ -90,28 +93,29 @@ class ImageHandler {
         const ctx = canvas.getContext('2d');
         canvas.width = width;
         canvas.height = height;
-
-        ctx.drawImage(image, 0, 0, width, height);
-        const imageData = ctx.getImageData(0, 0, width, height).data;
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, width, height);
-        container.innerHtml = '';
-        // // 生成点阵信息
-        for (var h = 0; h < height; h += gap) {
-            for (var w = 0; w < width; w += gap) {
-                var position = (width * h + w) * 4;
-                var r = imageData[position],
-                    g = imageData[position + 1],
-                    b = imageData[position + 2];
-                if (parseInt(r * 0.299 + g * 0.587 + b * 0.114) < 128) {
-                    let el = element.cloneNode(true);
-                    el.style.position = 'absolute';
-                    el.style.left = w * scale - elSize / 2 + 'px';
-                    el.style.top = h * scale - elSize / 2 + 'px';
-                    el.style.width = el.style.height = elSize + 'px';
-                    container.appendChild(el);
+        image.onload = () => {
+            ctx.drawImage(image, 0, 0, width, height);
+            const imageData = ctx.getImageData(0, 0, width, height).data;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, width, height);
+            container.innerHtml = '';
+            // // 生成点阵信息
+            for (var h = 0; h < height; h += gap) {
+                for (var w = 0; w < width; w += gap) {
+                    var position = (width * h + w) * 4;
+                    var r = imageData[position],
+                        g = imageData[position + 1],
+                        b = imageData[position + 2];
+                    if (parseInt(r * 0.299 + g * 0.587 + b * 0.114) < 128) {
+                        let el = element.cloneNode(true);
+                        el.style.position = 'absolute';
+                        el.style.left = w * scale - elSize / 2 + 'px';
+                        el.style.top = h * scale - elSize / 2 + 'px';
+                        el.style.width = el.style.height = elSize + 'px';
+                        container.appendChild(el);
+                    }
                 }
             }
-        }
+        };
     }
 }

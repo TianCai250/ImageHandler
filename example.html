@@ -9,14 +9,14 @@
     <script src="./ImageHandler.js"></script>
     <style>
         #target {
-            width: 500px;
-            height: 300px;
+            width: 400px;
+            height: 400px;
         }
 
         #container {
             position: relative;
             width: 400px;
-            height: 200px;
+            height: 400px;
         }
 
         .circle {
@@ -32,8 +32,9 @@
     <script>
         const el = document.createElement('div');
         el.setAttribute('class', 'circle')
-        // 调用方法
-        const imageHandler = new ImageHandler('./dragon.png', {
+
+        // 创建图像处理类
+        const imageHandler = new ImageHandler('./image.jpg', {
             // target（可选）:转换后的图片显示容器，未传则不显示图片
             target: document.querySelector('#target'),
             width: document.querySelector('#target').clientWidth,
@@ -44,22 +45,23 @@
         imageHandler.blackWhite().then(img => {
             // 下载黑白转换后的图片
             imageHandler.downloadImg('黑白')
-            // 利用元素绘制图片
-            imageHandler.paintByElement(img, document.querySelector('#container'), {
-                // 必填，填充元素
-                element: el,
-                // 以下皆为可选
-                // 绘制的宽高
-                width: document.querySelector('#container').clientWidth,
-                height: document.querySelector('#container').clientHeight,
-                // 元素之间的间距
-                gap: 6,
-                // 元素放大倍数
-                scale: 1,
-                // 元素宽
-                elSize: 5
-            })
         });
+
+        // 利用元素绘制图片
+        imageHandler.paintByElement(document.querySelector('#container'), {
+            // 必填，填充元素
+            element: el,
+            // 以下皆为可选
+            // 绘制的宽高
+            width: document.querySelector('#container').clientWidth,
+            height: document.querySelector('#container').clientHeight,
+            // 元素之间的间距
+            gap: 6,
+            // 元素放大倍数
+            scale: 1,
+            // 元素宽
+            elSize: 5
+        })
 
     </script>
 </body>
