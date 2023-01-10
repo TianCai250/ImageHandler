@@ -10,7 +10,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/TianCai250/ImageHandler.git"
+        "url": "git+https://github.com/TianCai250/ImagesHandler.git"
     },
     "keywords": [
         "image",
@@ -20,9 +20,9 @@
     "author": "TianCai250",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/TianCai250/ImageHandler/issues"
+        "url": "https://github.com/TianCai250/ImagesHandler/issues"
     },
-    "homepage": "https://github.com/TianCai250/ImageHandler#readme",
+    "homepage": "https://github.com/TianCai250/ImagesHandler#readme",
     "devDependencies": {
         "rollup": "^2.78.0",
         "rollup-plugin-dts": "^4.2.2",
