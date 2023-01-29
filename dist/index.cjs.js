@@ -1,24 +1,24 @@
 'use strict';
 
 class ImagesHandler {
-    constructor(imgSrc, options) {
+    constructor(imgSrc, options = {}) {
         this.imgSrc = imgSrc;
         this.target = options.target || null;
         this.width = options.width || null;
         this.height = options.height || null;
-        this.canvas = document.createElement('canvas');
-        this.context = this.canvas.getContext('2d');
+        this.canvas = document.createElement("canvas");
+        this.context = this.canvas.getContext("2d");
         this.image = new Image();
         this.image.src = this.imgSrc;
         // 如果有容器，则绘制在容器中
         if (this.target) {
-            this.target.innerHTML = '';
+            this.target.innerHTML = "";
             this.target.append(this.canvas);
         }
     }
     // 黑白处理
     blackWhite() {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             this.image.onload = () => {
                 this.canvas.width = this.width || this.image.width;
                 this.canvas.height = this.height || this.image.height;
@@ -48,9 +48,9 @@ class ImagesHandler {
     }
     // 下载转化后的图片(在blackWhite的then回调函数中使用):imagesHandler.blackWhite().then(img => imagesHandler.downloadImg())
     downloadImg(imgName) {
-        this.canvas.toBlob(blob => {
+        this.canvas.toBlob((blob) => {
             const timestamp = Date.now().toString();
-            const a = document.createElement('a');
+            const a = document.createElement("a");
             document.body.append(a);
             a.download = `${imgName ? imgName : timestamp}.png`;
             a.href = URL.createObjectURL(blob);
@@ -74,18 +74,18 @@ class ImagesHandler {
         // 元素宽
         const elSize = options.elSize || 5;
         if (!element) {
-            throw '选项element不能为空！';
+            throw "选项element不能为空！";
         }
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
         canvas.width = width;
         canvas.height = height;
         image.onload = () => {
             ctx.drawImage(image, 0, 0, width, height);
             const imageData = ctx.getImageData(0, 0, width, height).data;
-            ctx.fillStyle = '#ffffff';
+            ctx.fillStyle = "#ffffff";
             ctx.fillRect(0, 0, width, height);
-            container.innerHTML = '';
+            container.innerHTML = "";
             // // 生成点阵信息
             for (var h = 0; h < height; h += gap) {
                 for (var w = 0; w < width; w += gap) {
@@ -93,10 +93,10 @@ class ImagesHandler {
                     var r = imageData[position], g = imageData[position + 1], b = imageData[position + 2];
                     if (r * 0.299 + g * 0.587 + b * 0.114 < 128) {
                         let el = element.cloneNode(true);
-                        el.style.position = 'absolute';
-                        el.style.left = w * scale - elSize / 2 + 'px';
-                        el.style.top = h * scale - elSize / 2 + 'px';
-                        el.style.width = el.style.height = elSize + 'px';
+                        el.style.position = "absolute";
+                        el.style.left = w * scale - elSize / 2 + "px";
+                        el.style.top = h * scale - elSize / 2 + "px";
+                        el.style.width = el.style.height = elSize + "px";
                         container.appendChild(el);
                     }
                 }

@@ -1,7 +1,7 @@
 interface Options {
-    target: HTMLElement | null;
-    width: number | null;
-    height: number | null;
+    target?: HTMLElement | null;
+    width?: number | null;
+    height?: number | null;
 }
 interface domOptions {
     element: HTMLElement;
@@ -19,7 +19,7 @@ declare class ImagesHandler {
     private canvas;
     private context;
     private image;
-    constructor(imgSrc: string, options: Options);
+    constructor(imgSrc: string, options?: Options);
     blackWhite(): Promise<unknown>;
     downloadImg(imgName?: string): void;
     paintByElement(container: HTMLElement, options: domOptions): void;
