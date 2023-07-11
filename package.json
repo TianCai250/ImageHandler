@@ -1,7 +1,7 @@
 {
     "name": "imageshandler",
     "version": "1.0.1",
-    "description": "一个前端图像处理工具类，支持将彩色图像黑白化，支持下载转换后的图像，还能用自定义的 dom 元素绘制图片。",
+    "description": "一个前端图像处理工具类。支持将彩色图像黑白化，支持下载转换后的图像，还能用自定义的 dom 元素绘制图片。",
     "main": "dist/index.cjs.js",
     "module": "dist/index.esm.js",
     "browser": "dist/index.js",
