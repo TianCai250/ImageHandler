@@ -5,7 +5,7 @@
 #github
 https://github.com/TianCai250/ImagesHandler
 
-#usage
+#usage 
 
 ```bash
 npm install imageshandler
